@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Channel {
+  id      String      @id @db.Uuid
+  type    ChannelType
+  users   User[]
+  Message Message[]
+}
+
+enum ChannelType {
+  DM
+  GROUP
+  SERVER_CHANNEL
+}
+
+model Message {
+  id      String @id @db.Uuid
+  content String
+
+  channelId String  @db.Uuid
+  channel   Channel @relation(fields: [channelId], references: [id])
+
+  userId String @db.Uuid
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id       String @id @db.Uuid
+  username String @unique
+
+  nickname    String
+  password    String // Для особо умных - тут хравнится хеш пароля, а не сам пароль
+  type        UserTypes
+  accessLevel UserAccessLevel
+
+  channels Channel[]
+  messages Message[]
+}
+
+enum UserTypes {
+  USER
+  BOT
+  SYSTEM
+}
+
+enum UserAccessLevel {
+  USER
+  MODERATOR
+  DEVELOPER
+}

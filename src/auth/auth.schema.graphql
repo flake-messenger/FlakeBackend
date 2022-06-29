@@ -1,0 +1,8 @@
+extend type Query {
+  getToken(username: String!, password: String!): Token!
+}
+
+type Token {
+  accessToken: String!
+  refreshToken: String!
+}
