@@ -1,0 +1,35 @@
+name: Lint and build
+on:
+  - push
+  - workflow_dispatch
+
+jobs:
+  lint_and_build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'pnpm'
+
+      - name: Prettify code
+        uses: lunavod/prettier_action@v4.1.2
+        with:
+          prettier_options: --write **/*.{ts} --config .prettierrc.yml
+          commit_message: 'refactor: auto prettier'
+
+      - name: Install packages
+        run: pnpm
+
+      - name: Run eslint
+        run: pnpm lint
+
+      - name: Add prisma
+        run: pnpm add @prisma/client
+
+      - name: Prisma generate
+        run: pnpm prisma generate
+
+      - name: Build nest app
+        run: pnpm build
