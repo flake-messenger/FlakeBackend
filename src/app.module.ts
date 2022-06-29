@@ -5,7 +5,7 @@ import { AppResolver } from './app.resolver'
 import { AppService } from './app.service'
 import { AuthModule } from './auth/auth.module'
 import { PrismaModule } from './prisma.module'
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './users/users.module'
 
 @Module({
   imports: [
