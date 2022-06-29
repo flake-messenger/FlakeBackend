@@ -15,7 +15,7 @@ jobs:
       - name: Prettify code
         uses: lunavod/prettier_action@v4.1.2
         with:
-          prettier_options: --write **/*.{ts} --config .prettierrc.yml
+          prettier_options: --write \"src/**/*.ts\" \"test/**/*.ts\" --config .prettierrc.js
           commit_message: 'refactor: auto prettier'
 
       - name: Install packages
